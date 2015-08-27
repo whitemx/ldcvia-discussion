@@ -102,6 +102,10 @@ function AppViewModel() {
   this._files = ko.observableArray(null);
   this.categorieslist = ko.observableArray(null);
 
+  //Response Fields
+  this.ResponseSubject = ko.observable(null);
+  this.ResponseBody__parsed = ko.observable(null);
+
   this.updateDocument = function(data){
     model._files.removeAll();
     ko.mapping.fromJS(data, {}, this);
@@ -155,6 +159,8 @@ function AppViewModel() {
 
   this.saveNewDocument = function(){
     var data = {};
+    var unid = new Date().getTime();
+    data.__unid = unid;
     data.FormName = "MainTopic";
     data.__form = "MainTopic";
     data.Categories = model.Categories();
@@ -182,19 +188,63 @@ function AppViewModel() {
           "contentTransferEncoding": "base64",
           "data": reader.result.match(/,(.*)$/)[1]
         });
-        sendNewDocument(data);
+        sendNewDocument(data, function (){
+          model.newdocument(false);
+          getViewData(new PageNum(1, 0));
+        });
       }
       reader.readAsDataURL(file);
     } else {
-      sendNewDocument(data);
+      sendNewDocument(data, function(){
+        model.newdocument(false);
+        getViewData(new PageNum(1, 0));
+      });
     }
+  }
+
+  this.saveNewResponse = function(){
+    var data = {};
+    var unid = new Date().getTime();
+    data.__unid = unid;
+    data.__parentid = model.__unid();
+    data.FormName = "Response";
+    data.__form = "Response";
+    data.From = model.useremail();
+    data.AbbreviateFrom = model.useremail();
+    data.Body = {
+      "type": "multipart",
+      "content": [{
+        "contentType": "text/html; charset=UTF-8",
+        "data": model.ResponseBody__parsed()
+      }]
+    };
+    data.Subject = model.ResponseSubject();
+    data.__created = new Date().toISOString();
+    data.__modified = new Date().toISOString();
+    var fileInput = $("#responsefileupload");
+    var file = fileInput[0].files[0];
+    var reader = new FileReader();
+    if (file) {
+      //Convert the file attachment to BASE64 string
+      reader.onload = function(e) {
+        data.Body.content.push({
+          "contentType": file.type + "; name=\"" + file.name + "\"",
+          "contentDisposition": "attachment; filename=\"" + file.name + "\"",
+          "contentTransferEncoding": "base64",
+          "data": reader.result.match(/,(.*)$/)[1]
+        });
+        sendNewDocument(data, loadResponses);
+      }
+      reader.readAsDataURL(file);
+    } else {
+      sendNewDocument(data, loadResponses);
+    }
+
   }
 
 }
 
-var sendNewDocument = function(data) {
-  var unid = new Date().getTime();
-  model.__unid(unid);
+var sendNewDocument = function(data, callback) {
   $.ajax({
     dataType: 'json',
     type: 'PUT',
@@ -202,13 +252,31 @@ var sendNewDocument = function(data) {
       'apikey': model.apikey()
     },
     data: data,
-    url: model.hostname + '/document/' + model.dbname + "/" + data.FormName + "/" + unid,
+    url: model.hostname + '/document/' + model.dbname + "/" + data.FormName + "/" + data.__unid,
     complete: function(res) {
-      model.newdocument(false);
-      getViewData(new PageNum(1, 0));
+      callback();
     }
   });
 
+}
+
+function loadResponses(){
+  model.ResponseSubject(null);
+  model.ResponseBody__parsed(null);
+  $.ajax({
+    method: 'GET',
+    url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + model.__unid() + "?expand=true",
+    headers: {"apikey": model.apikey()}
+  })
+  .done(function(data){
+    model.responses.removeAll();
+    var responses = data.data;
+    for (var i=0; i<responses.length; i++){
+      responses[i].From = formatNotesName(responses[i].From);
+      responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
+      model.responses.push(responses[i]);
+    }
+  })
 }
 
 var model = new AppViewModel();

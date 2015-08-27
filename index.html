@@ -190,15 +190,30 @@
               </div>
               <!-- /ko -->
             </div>
+            <div class="panel" data-bind="visible: Subject() != null">
+              <form data-bind="submit: saveNewResponse">
+                <h2>New Response</h2>
+                <div class="form-group">
+                  <label for="responsesubject">Subject</label>
+                  <input class="form-control" id="responsesubject" placeholder="Subject" data-bind="textInput: ResponseSubject">
+                </div>
+                <div class="form-group">
+                  <label for="responsebody">Body</label>
+                  <textarea class="form-control" id="responsebody" placeholder="Enter text..." data-bind="textInput: ResponseBody__parsed"></textarea>
+                </div>
+                <div class="form-group hidden">
+                  <input type="file" id="responsefileupload" name="responsefileupload">
+                </div>
+                <div class="btn-group">
+                  <button type="submit" class="btn btn-primary">Submit</button>
+                </div>
+              </form>
+            </div>
           </div>
         </div>
       </div>
       <div data-bind="visible: newdocument()">
         <form data-bind="submit: saveNewDocument">
-          <!--
-          this.Body = ko.observable(null);
-          this.Body__parsed = ko.observable(null);
-          -->
           <div class="form-group">
             <label for="subject">Subject</label>
             <input class="form-control" id="subject" placeholder="Subject" data-bind="textInput: Subject">
