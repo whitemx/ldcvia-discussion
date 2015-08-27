@@ -1,0 +1,22 @@
+{
+  "name": "ldcvia-discussion",
+  "version": "0.0.0",
+  "authors": [
+    "Matt White <matt@ldcvia.com>"
+  ],
+  "description": "A Knockout based web application using LDC Via as a back end",
+  "main": "app.js",
+  "license": "MIT",
+  "ignore": [
+    "**/.*",
+    "node_modules",
+    "bower_components",
+    "test",
+    "tests"
+  ],
+  "dependencies": {
+    "knockout": "~3.3.0",
+    "knockout.mapping": "~2.0.1",
+    "moment": "~2.10.6"
+  }
+}
