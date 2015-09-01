@@ -55,6 +55,13 @@ function AppViewModel() {
   this.search = ko.observable(null);
   this.newdocument = ko.observable(false);
 
+  this.home = function(){
+    model.Subject(null);
+    model.__unid(null);
+    model.newdocument(false);
+    getViewData();
+  }
+
   //Login Fields
   this.username = ko.observable(null);
   this.password = ko.observable(null);
@@ -105,6 +112,31 @@ function AppViewModel() {
   //Response Fields
   this.ResponseSubject = ko.observable(null);
   this.ResponseBody__parsed = ko.observable(null);
+
+  this.openDocument = function(data){
+    model.Subject(data.Subject);
+    model.From(data.From);
+    model.Categories(data.Categories);
+    model.__created(data.__created);
+    model.Body(data.Body);
+    model.Body__parsed(data.Body__parsed);
+    model.__unid(data.__unid);
+    model._files(data._files);
+    $.ajax({
+      method: 'GET',
+      url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + this.__unid + "?expand=true",
+      headers: {"apikey": model.apikey()}
+    })
+    .done(function(data){
+      model.responses.removeAll();
+      var responses = data.data;
+      for (var i=0; i<responses.length; i++){
+        responses[i].From = formatNotesName(responses[i].From);
+        responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
+        model.responses.push(responses[i]);
+      }
+    })
+  }
 
   this.updateDocument = function(data){
     model._files.removeAll();
@@ -189,15 +221,13 @@ function AppViewModel() {
           "data": reader.result.match(/,(.*)$/)[1]
         });
         sendNewDocument(data, function (){
-          model.newdocument(false);
-          getViewData(new PageNum(1, 0));
+          model.home();
         });
       }
       reader.readAsDataURL(file);
     } else {
       sendNewDocument(data, function(){
-        model.newdocument(false);
-        getViewData(new PageNum(1, 0));
+        model.home();
       });
     }
   }
@@ -294,47 +324,6 @@ function PageNum(pagenum, start){
   }
 }
 
-function ViewEntry(title, subtitle, created, unid) {
-  this.title = title;
-  this.subtitle = subtitle;
-  this.unid = unid;
-  this.created = created;
-
-  this.getDocument = function(entry){
-    $.ajax({
-      method: "GET",
-      url: model.hostname + "/document/" + model.dbname + "/MainTopic/" + entry.unid,
-      headers: {"apikey": model.apikey()}
-    })
-    .done(function(data) {
-      data.__created = moment(data.__created).format('MMMM Do YYYY, h:mm:ss a');
-      data.From = formatNotesName(data.From);
-      model.updateDocument(data);
-    });
-    $.ajax({
-      method: 'GET',
-      url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + entry.unid + "?expand=true",
-      headers: {"apikey": model.apikey()}
-    })
-    .done(function(data){
-      model.responses.removeAll();
-      var responses = data.data;
-      for (var i=0; i<responses.length; i++){
-        responses[i].From = formatNotesName(responses[i].From);
-        responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
-        model.responses.push(responses[i]);
-      }
-    })
-  }
-  this.isSelected = function (data){
-    if (data.unid == model.__unid()){
-      return true;
-    }else{
-      return false;
-    }
-  }
-}
-
 function getViewData(data){
   if (data){
     model.start(data.start);
@@ -356,8 +345,10 @@ function getViewData(data){
     for (var i=0; i<data.data.length; i++){
       data.data[i].From = formatNotesName(data.data[i].From);
       data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
-      var viewentry = new ViewEntry(data.data[i].Subject, data.data[i].From, data.data[i].__created, data.data[i].__unid);
-      model.viewentries.push(viewentry);
+      if (!Array.isArray(data.data[i].Categories)){
+        data.data[i].Categories = [data.data[i].Categories];
+      }
+      model.viewentries.push(data.data[i]);
     }
   });
 }
@@ -386,8 +377,10 @@ function getSearchData(data){
     for (var i=0; i<data.data.length; i++){
       data.data[i].From = formatNotesName(data.data[i].From);
       data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
-      var viewentry = new ViewEntry(data.data[i].Subject, data.data[i].From, data.data[i].__created, data.data[i].__unid);
-      model.viewentries.push(viewentry);
+      if (!Array.isArray(data.data[i].Categories)){
+        data.data[i].Categories = [data.data[i].Categories];
+      }
+      model.viewentries.push(data.data[i]);
     }
   });
 }

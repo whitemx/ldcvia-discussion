@@ -1,0 +1,399 @@
+/* General Markup Styles
+---------------------------------------- */
+
+@font-face {
+    font-family: "BebasNeueRegular";
+    font-style: normal;
+    font-weight: normal;
+	src: url("./font/bebasneue/BebasNeue-webfont.eot");
+    src: url("./font/bebasneue/BebasNeue-webfont.eot?#iefix") format("embedded-opentype"),
+	     url("./font/bebasneue/BebasNeue-webfont.woff") format("woff"), 
+	     url("./font/bebasneue/BebasNeue-webfont.ttf") format("truetype"), 
+		 url("./font/bebasneue/BebasNeue-webfont.svg#BebasNeueRegular") format("svg");
+}
+	
+/* un-or-comment this line if you want to change the post content font only */
+.postbody .content {
+    color: #495d60;
+	-webkit-font-smoothing: antialiased; /* Fix for webkit rendering */
+	-webkit-text-size-adjust: 100%;
+	font-family:inherit;
+	font-size: 1.1em;
+    /* word-break: break-all; */
+    /* Non standard for webkit */
+    /* word-break: break-word; */
+    -webkit-hyphens: auto;
+    -moz-hyphens: auto;
+    -ms-hyphens: auto;
+        hyphens: auto;	
+}
+/* un-or-comment this line if you want to change the post content font only */
+
+/* Main blocks
+---------------------------------------- */
+#wrap {
+    background: none repeat scroll 0 0 rgba(255, 255, 255, 0.2);
+    border: 1px solid rgba(255, 255, 255, 0.75);
+    box-shadow: 0 0 4px rgba(50, 50, 50, 0.5);
+    margin: 20px auto;
+    padding: 6px;
+}
+
+#content-forum {
+    background: none repeat scroll 0 0 #EBEBEB;
+    border-radius: 4px 4px 4px 4px;
+    box-shadow: 0 0 14px #FFFFFF;
+}
+
+.padding_0_40 {
+    padding: 10px 8px;
+}
+
+.corners{
+    border-radius: 8px 8px 8px 8px;
+    display: block;
+}
+
+#simple-wrap {
+	padding: 6px 10px;
+}
+
+#page-body {
+	margin: 4px 0;
+	clear: both;
+}
+
+hr {
+	border: 0 none #FFFFFF;
+	border-top: 1px solid #CCCCCC;
+	height: 1px;
+	margin: 5px 0;
+	display: block;
+	clear: both;
+}
+
+hr.dashed {
+	border-top: 1px dashed #CCCCCC;
+	margin: 10px 0;
+}
+
+/* Topic review panel
+----------------------------------------*/
+#review {
+	margin-top: 1em;
+}
+
+#topicreview {
+	padding-right: 5px;
+	overflow: auto;
+	height: 300px;
+}
+
+#topicreview .postbody {
+	width: auto;
+	float: none;
+	margin: 0;
+	height: auto;
+}
+
+#topicreview .post {
+	height: auto;
+}
+
+#topicreview h2 {
+	border-bottom-width: 0;
+}
+
+.post-ignore .postbody {
+	display: none;
+}
+
+/* MCP Post details
+----------------------------------------*/
+#post_details {
+	/* This will only work in IE7+, plus the others */
+	overflow: auto;
+	max-height: 300px;
+}
+
+#expand {
+	clear: both;
+}
+
+/* Content container styles
+----------------------------------------*/
+
+.post-icon {
+    margin-bottom: 2px;
+    margin-right: 5px;
+}
+
+.posthilit {
+    background-color: #F2F228;
+    color: #000000;
+}
+
+/* Post signature */
+.signature {
+	margin-top: 1.5em;
+	padding-top: 0.2em;
+	font-size: 1.1em;
+	border-top: 1px solid #CCCCCC;
+	clear: left;
+	line-height: 140%;
+	overflow: hidden;
+	width: 100%;
+}
+
+
+/* Post noticies */
+.notice {
+	margin-top: 1.5em;
+	border-top: 1px dashed #CCCCCC;
+	line-height: 120%;
+}
+
+/* Jump to post link for now */
+.searchresults {
+	list-style: none;
+	text-align: right;
+	clear: both;
+}
+
+/* BB Code styles
+----------------------------------------*/
+/* Quote block */
+
+blockquote {
+   padding: 0 0 0 15px;
+   margin: 0 0 20px;
+   border-left: 5px solid #cccccc;
+}
+
+.content blockquote cite {
+   display:block;
+}
+
+.content blockquote {
+   background: none repeat scroll 0 0 #EDEDED;
+   font-size: 1.03em;
+   border: 1px solid #CCCCCC;
+   border-radius: 3px;
+   margin: 1em 0 0;
+   padding: 0.3em 2em 0.3em 2.5em;
+   position: relative;
+}
+
+.content blockquote:before {
+  color: #ccc;
+  content: "\201C";
+  font-size: 5em;
+  position:absolute;
+  left:5px;
+  top: 0.3em;
+  line-height: 0.2em;
+}
+
+.content blockquote:after {
+   color: #ccc;
+   content: "\201D";
+   font-size: 5em;
+   position:absolute;
+   right:3px;
+   bottom: 0em;
+   line-height: 0;
+}
+
+
+/* Code block */
+.codebox {
+	padding: 3px;
+	background-color: #FFFFFF;
+	border: 1px solid #d8d8d8;
+	font-size: 1em;
+}
+
+.codebox span {
+	text-transform: uppercase;
+	border-bottom: 1px solid #CCCCCC;
+	margin-bottom: 3px;
+	font-size: 0.8em;
+	font-weight: bold;
+	display: block;
+}
+
+blockquote .codebox {
+	margin: 5px 5px 5px 0;
+}
+
+.codebox code {
+	/* Also see tweaks.css */
+	overflow: auto;
+	display: block;
+	height: auto;
+	max-height: 200px;
+	white-space: normal;
+	line-height: 1.3em;
+	color: #8b8b8b;
+	margin: 2px 0;
+}
+
+.syntaxbg		{ color: #FFFFFF; }
+.syntaxcomment	{ color: #000000; }
+.syntaxdefault	{ color: #bcbcbc; }
+.syntaxhtml		{ color: #000000; }
+.syntaxkeyword	{ color: #585858; }
+.syntaxstring	{ color: #a7a7a7; }
+
+/* Attachments
+----------------------------------------*/
+.attachbox {
+	width: auto; 
+	margin: 10px;
+	padding: 10px;
+	background-color: #FFFFFF;
+	border: 1px dashed #d8d8d8;
+}
+
+.pm-message .attachbox {
+	background-color: #f3f3f3;
+}
+
+
+.attachbox p {
+	line-height: 110%;
+	color: #666666;
+	font-weight: normal;
+	clear: left;
+}
+
+.stats {
+	line-height: 110%;
+	color: #666666;
+	font-weight: normal;
+	clear: left;
+}
+
+.attach-image {
+	margin: 3px 0;
+	width: 100%;
+	max-height: 350px;
+	overflow: auto;
+}
+
+.attach-image img {
+	border: 1px solid #999999;
+/*	cursor: move; */
+	cursor: default;
+}
+
+/* Inline image thumbnails */
+.thumbnail {
+	display: block;
+	margin-bottom: 4px;
+}
+
+
+/* Link Styles
+---------------------------------------- */
+
+/* Links adjustment to correctly display an order of rtl/ltr mixed content */
+a {
+	direction: ltr;
+	unicode-bidi: embed;
+}
+
+/* Coloured usernames */
+.username-coloured {
+	font-weight: 600;
+	display: inline;
+	padding: 0;
+}
+
+
+.table-primary thead th a {
+    color: #FFFFFF;
+    font-family: inherit;
+    font-style: inherit;
+    font-weight: inherit;
+}
+
+/* Feed icon in forumlist_body.html */
+.feed-icon-forum {
+	float: right;
+	margin: 3px;
+}
+
+
+/*  	
+--------------------------------------------------------------
+Colours and backgrounds for links.css
+-------------------------------------------------------------- */
+
+a:link	{ color: #8C8C8C; }
+a:visited	{ color: #8C8C8C; }
+a:hover	{ color: #A6A6A6; text-decoration: none; }
+a:active	{ color: #338AD2; }
+
+
+/* Links for forum/topic lists */
+
+a.forumtitle:hover {
+	color: #8C8C8C;
+	text-decoration: none;
+}
+
+a.forumtitle:active {
+	color: #105289;
+}
+
+/* Links for forum/topic lists */
+a.forumtitle {
+	font-family: inherit;
+	font-style: normal;
+	font-weight: 600;
+	text-decoration: none;
+	color: #148FCF;
+}
+
+a.topictitle {
+	font-family: inherit;
+	font-style: normal;
+	font-weight: 600;
+	text-decoration: none;
+	color: #148FCF;
+}
+
+a.topictitle:hover {
+	color: #8C8C8C;
+	text-decoration: none;
+}
+
+a.topictitle:active {
+	color: #105289;
+}
+
+/* Post body links */
+.postlink {
+	color: #368AD2;
+	border-bottom: 1px dashed #CCCCCC;
+}
+
+.postlink:visited {
+	color: #5D8FBD;
+}
+
+.postlink:active {
+	color: #368AD2;
+}
+
+.postlink:hover {
+	color: #8C8C8C;
+	border-bottom: 1px solid #CCCCCC;
+}
+
+.signature a, .signature a:visited, .signature a:hover, .signature a:active {
+	background-color: transparent;
+	border: none;
+	text-decoration: none;
+}

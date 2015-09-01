@@ -6,10 +6,20 @@
   <meta http-equiv="X-UA-Compatible" content="IE=edge">
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title data-bind="text: dbtitle">LDC Via Discussion</title>
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap.min.css">
-  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/css/bootstrap-theme.min.css">
+  <link rel="icon" href="./favicon.ico">
+  <!-- CSS files start here-->
+  <link href="./theme/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="./theme/bootstrap/css/bootstrap-select.min.css" rel="stylesheet">
+  <link href="./theme/footable/css/footable.core.min.css" rel="stylesheet">
   <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/font-awesome/4.4.0/css/font-awesome.min.css">
-  <link rel="stylesheet" href="site.css">
+  <link href="./theme/iconmoon/style.min.css" rel="stylesheet">
+  <link href="./theme/content.min.css" rel="stylesheet">
+  <link href="./theme/basics.css" rel="stylesheet">
+  <link href="./theme/custom.css" rel="stylesheet">
+  <!-- Google free font here -->
+  <link href='//fonts.googleapis.com/css?family=Source+Sans+Pro:400,600' rel='stylesheet' type='text/css'>
+  <link href='//fonts.googleapis.com/css?family=Roboto+Condensed:400,700' rel='stylesheet' type='text/css'>
+  <!-- CSS files -->
   <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
   <!--[if lt IE 9]>
     <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
@@ -17,234 +27,297 @@
   <![endif]-->
 </head>
 
-<body>
-  <div class="wrapper">
-    <nav class="navbar navbar-default">
-      <div class="container-fluid">
-        <!-- Brand and toggle get grouped for better mobile display -->
-        <div class="navbar-header">
-          <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
-            <span class="sr-only">Toggle navigation</span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-            <span class="icon-bar"></span>
-          </button>
-          <a class="navbar-brand" href="#" data-bind="text: dbtitle, click: resetSearch"></a>
-        </div>
-
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-          <ul class="nav navbar-nav navbar-left">
-            <li data-bind="css: {active: newdocument}">
-              <a href="#" data-bind="click: newDocument">New Topic</a>
-            </li>
-          </ul>
-          <ul class="nav navbar-nav navbar-right" data-bind="visible: apikey() != null">
-            <li class="dropdown">
-              <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-                <span data-bind="text: useremail"></span>
-              </a>
-              <ul class="dropdown-menu">
-                <li><a href="#" data-bind="click: logout">Logout</a></li>
-              </ul>
-            </li>
-          </ul>
-          <form class="navbar-form navbar-right" role="search" data-bind="submit: doSearch, visible: indexed()">
-            <div class="input-group">
-              <input type="text" class="form-control" placeholder="Search" data-bind="textInput: search">
-              <span class="input-group-btn">
-                <button type="submit" class="btn btn-default">Search</button>
-                <button class="btn btn-default" data-bind="click: resetSearch, visible: search() != null">Reset</button>
-              </span>
-            </div>
-          </form>
-        </div>
-        <!-- /.navbar-collapse -->
-      </div>
-      <!-- /.container-fluid -->
-    </nav>
-    <div class="container" data-bind="visible: apikey() == null">
-      <div class="row">
-        <form class="form-horizontal" data-bind="submit: login">
-          <div class="form-group">
-            <label for="email" class="col-sm-2 control-label">Email</label>
-            <div class="col-sm-10">
-              <input type="email" class="form-control" id="email" placeholder="Email" data-bind="textInput: username">
-            </div>
-          </div>
-          <div class="form-group">
-            <label for="password" class="col-sm-2 control-label">Password</label>
-            <div class="col-sm-10">
-              <input type="password" class="form-control" id="password" placeholder="Password" data-bind="textInput: password">
-            </div>
-          </div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <div class="checkbox">
-                <label>
-                  <input type="checkbox" name="remember" value="1" data-bind="checked: remember"> Remember me for 28 days
-                </label>
+<body id="phpbb" class="section-index ltr">
+  <div id="wrap" class="corners container">
+    <div id="content-forum">
+      <div class="padding_0_40">
+        <header class="header" role="banner">
+          <div class="topArea">
+            <div class="leftArea">
+              <div class="logo-transition">
+                <a class="logo" href="#" data-bind="click: home">
+                  <span>D</span>iscussion</a>
               </div>
+              <a href="http://ldcvia.com" class="site-info">by LDC Via</a>
+              <div class="clearfix"></div>
             </div>
-          </div>
-          <div class="alert alert-danger" role="alert" data-bind="visible: error() != null, text: error"></div>
-          <div class="form-group">
-            <div class="col-sm-offset-2 col-sm-10">
-              <button type="submit" class="btn btn-default">Sign in</button>
-            </div>
-          </div>
-        </form>
-      </div>
-    </div>
+            <nav class="mainnav" role="navigation" aria-label="Primary">
+              <div class="container-fluid">
+                <!-- Brand and toggle get grouped for better mobile display -->
+                <div class="navbar-header">
+                  <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#bs-example-navbar-collapse-1" aria-expanded="false">
+                    <span class="sr-only">Toggle navigation</span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                  </button>
 
-    <div class="container" data-bind="visible: apikey() != null">
-      <div data-bind="visible: !newdocument()">
-        <div class="row">
-          <p class="pull-right visible-xs">
-            <button type="button" class="btn btn-primary btn-xs" data-toggle="offcanvas">Toggle nav</button>
-          </p>
-        </div>
-        <div class="row row-offcanvas row-offcanvas-left">
-          <div class="col-md-4 col-xs-12 sidebar-offcanvas">
-            <ul data-bind="foreach: viewentries" class="list-group sidebar-nav-v1">
-              <li class="list-group-item" data-bind="css: {active: isSelected($data)}">
-                <a href="#" data-bind="click: getDocument">
-                  <span class="badge pull-right" data-bind="text: created"></span>
-                  <h4 data-bind="text: title" class="list-group-item-heading"></h4>
-                  <p data-bind="text: subtitle" class="list-group-item-text"></p>
-                </a>
-              </li>
-            </ul>
-            <nav>
-              <ul class="pagination">
-                <li>
-                  <a href="#" aria-label="First" data-bind="click: getFirstViewPage" data-toggle="tooltip" title="First">
-                    <span aria-hidden="true">&laquo;</span>
-                  </a>
-                </li>
-                <!-- ko foreach: pages -->
-                <li data-bind="css: {active: start == $parent.start()}">
-                  <a href="#" data-bind="text: pagenum, click: getViewPage"></a>
-                </li>
-                <!-- /ko -->
-                <li>
-                  <a href="#" aria-label="Last" data-bind="click: getLastViewPage" data-toggle="tooltip" title="Last">
-                    <span aria-hidden="true">&raquo;</span>
-                  </a>
-                </li>
-              </ul>
+                </div>
+
+                <!-- Collect the nav links, forms, and other content for toggling -->
+                <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+                  <ul class="nav navbar-nav navbar-left">
+                    <li class="nav-icon">
+                      <a href="#" data-bind="click: home">Home
+                      <span class="has-sub">
+                        <i class="fa fa-home">
+                      </i>
+                      </a>
+                    </li>
+                    <li class="nav-icon" data-bind="css: {active: newdocument}, visible: apikey() != null">
+                      <a href="#" data-bind="click: newDocument">
+                        New Topic
+                        <span class="has-sub">
+                          <i class="fa fa-plus"></i>
+                        </span>
+                      </a>
+                    </li>
+                  </ul>
+                  <ul class="nav navbar-nav navbar-right" data-bind="visible: apikey() != null">
+                    <li class="dropdown">
+                      <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+                        <span data-bind="text: useremail"></span>
+                      </a>
+                      <ul class="dropdown-menu">
+                        <li><a href="#" data-bind="click: logout">Logout</a></li>
+                      </ul>
+                    </li>
+                  </ul>
+                  <form class="navbar-form navbar-right" role="search" data-bind="submit: doSearch, visible: indexed() && apikey() != null">
+                    <div class="input-group">
+                      <input type="text" class="form-control" placeholder="Search" data-bind="textInput: search">
+                      <span class="input-group-btn">
+                        <button type="submit" class="btn btn-default">Search</button>
+                        <button class="btn btn-default" data-bind="click: resetSearch, visible: search() != null">Reset</button>
+                      </span>
+                    </div>
+                  </form>
+                </div>
+                <!-- /.navbar-collapse -->
+              </div>
+              <!-- /.container-fluid -->
             </nav>
           </div>
-          <div class="col-md-8">
-            <div data-bind="visible: Subject() == null" class="well">
-              Welcome to the discussion. To begin, select a document on the left.
+        </header>
+
+        <section class="subheader">
+          <div class="clearfix">
+            <div class="fxicon">
+              <i class="fa fa-puzzle-piece"></i>
             </div>
-            <div data-bind="visible: Subject() != null" class="list-group">
-              <div class="list-group-item">
-                <h4 class="list-group-item-heading">Subject: </h4>
-                <div data-bind="text: Subject" class="list-group-item-text"></div>
+            <ul class="index-pos pull-left">
+              <li class="index-title">
+                <h1 data-bind="click: home, visible: apikey() == null">Please Login</h1>
+                <h1 data-bind="text: dbtitle, click: home, visible: apikey() != null && Subject() == null && !newdocument()"></h1>
+                <h1 data-bind="click: home, visible: newdocument()">New Topic</h1>
+                <h1 data-bind="text: Subject, click: home, visible: Subject() != null && !newdocument()"></h1>
+              </li>
+              <li class="index-sub"></li>
+            </ul>
+          </div>
+        </section>
+
+        <div class="page-body">
+          <main role="main">
+            <div class="well" data-bind="visible: apikey() == null">
+              <form class="form-horizontal" data-bind="submit: login" id="login">
+                <fieldset>
+                  <div class="col-md-6">
+                    <div class="form-group">
+                      <label for="email">Email</label>
+                      <div class="input-icon left">
+                        <i class="fa fa-user"></i>
+                        <input type="email" class="form-control" id="email" placeholder="Email" data-bind="textInput: username">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <label for="password">Password</label>
+                      <div class="input-icon left">
+                        <i class="fa fa-key"></i>
+                        <input type="password" class="form-control" id="password" placeholder="Password" data-bind="textInput: password">
+                      </div>
+                    </div>
+                    <div class="form-group">
+                      <div class="checkbox">
+                        <input id="remember" type="checkbox" name="remember" value="1" data-bind="checked: remember">
+                        <label class="checkbox-inline" for="remember">
+                          Remember me for 28 days
+                        </label>
+                      </div>
+                    </div>
+                    <div class="alert alert-danger" role="alert" data-bind="visible: error() != null, text: error"></div>
+                    <div class="form-group">
+                      <button type="submit" class="btn btn-default">Sign in</button>
+                    </div>
+                  </div>
+                </fieldset>
+              </form>
+            </div>
+
+            <div class="panel panel-default" data-bind="visible: apikey() != null">
+              <div data-bind="visible: !newdocument() && Subject() == null">
+                <table class="footable table table-striped table-bordered table-white table-primary table-hover announcement default">
+                  <thead>
+                    <tr>
+                      <th class="footable-first-column">
+                        <i class="fa fa-group"></i> Topics
+                      </th>
+                      <th class="large20 footable-last-column hidden-xs">
+                        <i class="fa fa-comments-o"></i> Posted
+                      </th>
+                    </tr>
+                  </thead>
+                  <tbody data-bind="foreach: viewentries">
+                    <tr>
+                      <td class="expand footable-first-column">
+                        <a href="#" data-bind="text: $data.Subject, click: $parent.openDocument" class="topictitle"></a>
+                        <br />
+                        <!-- ko foreach: $data.Categories -->
+                        <small class="badge" data-bind="text: $data"></small>
+                        <!-- /ko -->
+                      </td>
+                      <td class="center footable-last-column hidden-xs">
+                        <i class="fa fa-user"></i> by
+                        <a href="#" class="username-coloured" data-bind="text: $data.From"></a>
+                        <br />
+                        <i class="fa fa-clock-o"></i>
+                        <small data-bind="text: $data.__created"></small>
+                      </td>
+                    </tr>
+                  </tbody>
+                </table>
+                <nav>
+                  <ul class="pagination">
+                    <li>
+                      <a href="#" aria-label="First" data-bind="click: getFirstViewPage" data-toggle="tooltip" title="First">
+                        <span aria-hidden="true">&laquo;</span>
+                      </a>
+                    </li>
+                    <!-- ko foreach: pages -->
+                    <li data-bind="css: {active: start == $parent.start()}">
+                      <a href="#" data-bind="text: pagenum, click: getViewPage"></a>
+                    </li>
+                    <!-- /ko -->
+                    <li>
+                      <a href="#" aria-label="Last" data-bind="click: getLastViewPage" data-toggle="tooltip" title="Last">
+                        <span aria-hidden="true">&raquo;</span>
+                      </a>
+                    </li>
+                  </ul>
+                </nav>
               </div>
-              <div class="list-group-item">
-                <h4 class="list-group-item-heading">Created By: </h4>
-                <div data-bind="text: From" class="list-group-item-text"></div>
-              </div>
-              <div class="list-group-item">
-                <h4 class="list-group-item-heading">Categories: </h4>
-                <div data-bind="text: Categories" class="list-group-item-text"></div>
-              </div>
-              <div class="list-group-item">
-                <h4 class="list-group-item-heading">Date Created: </h4>
-                <div data-bind="text: __created" class="list-group-item-text"></div>
-              </div>
-              <div class="list-group-item" data-bind="visible: _files().length > 0">
-                <h4 class="list-group-item-heading">Attachments: </h4>
-                <!-- ko foreach: _files -->
-                <div>
-                  <a href="#" data-bind="click: $parent.openFile, text: $data"></a>
+              <div data-bind="visible: Subject() != null && !newdocument()">
+                <div class="list-group">
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">Subject: </h4>
+                    <div data-bind="text: Subject" class="list-group-item-text"></div>
+                  </div>
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">Created By: </h4>
+                    <div data-bind="text: From" class="list-group-item-text"></div>
+                  </div>
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">Categories: </h4>
+                    <div data-bind="text: Categories" class="list-group-item-text"></div>
+                  </div>
+                  <div class="list-group-item">
+                    <h4 class="list-group-item-heading">Date Created: </h4>
+                    <div data-bind="text: __created" class="list-group-item-text"></div>
+                  </div>
+                  <div class="list-group-item" data-bind="visible: _files().length > 0">
+                    <h4 class="list-group-item-heading">Attachments: </h4>
+                    <!-- ko foreach: _files -->
+                    <div>
+                      <a href="#" data-bind="click: $parent.openFile, text: $data"></a>
+                    </div>
+                    <!-- /ko -->
+                  </div>
+                  <div class="list-group-item">
+                    <div data-bind="html: Body__parsed" class="list-group-item-text"></div>
+                  </div>
                 </div>
-                <!-- /ko -->
-              </div>
-              <div class="list-group-item">
-                <div data-bind="html: Body__parsed" class="list-group-item-text"></div>
+                <div data-bind="visible: responses().length > 0">
+                  <h2>Responses</h2>
+                  <!-- ko foreach: responses -->
+                  <div class="list-group">
+                    <div class="list-group-item">
+                      <h4 class="list-group-item-heading">Subject: </h4>
+                      <div data-bind="text: Subject" class="list-group-item-text"></div>
+                    </div>
+                    <div class="list-group-item">
+                      <h4 class="list-group-item-heading">Created By: </h4>
+                      <div data-bind="text: From" class="list-group-item-text"></div>
+                    </div>
+                    <div class="list-group-item">
+                      <h4 class="list-group-item-heading">Date Created: </h4>
+                      <div data-bind="text: __created" class="list-group-item-text"></div>
+                    </div>
+                    <div class="list-group-item">
+                      <div data-bind="html: Body__parsed" class="list-group-item-text"></div>
+                    </div>
+                  </div>
+                  <!-- /ko -->
+                </div>
+                <div class="panel" data-bind="visible: Subject() != null">
+                  <form data-bind="submit: saveNewResponse">
+                    <h2>New Response</h2>
+                    <div class="form-group">
+                      <label for="responsesubject">Subject</label>
+                      <input class="form-control" id="responsesubject" placeholder="Subject" data-bind="textInput: ResponseSubject">
+                    </div>
+                    <div class="form-group">
+                      <label for="responsebody">Body</label>
+                      <textarea class="form-control" id="responsebody" placeholder="Enter text..." data-bind="textInput: ResponseBody__parsed"></textarea>
+                    </div>
+                    <div class="form-group hidden">
+                      <input type="file" id="responsefileupload" name="responsefileupload">
+                    </div>
+                    <div class="btn-group">
+                      <button type="submit" class="btn btn-primary">Submit</button>
+                    </div>
+                  </form>
+                </div>
               </div>
             </div>
-            <div data-bind="visible: responses().length > 0">
-              <h2>Responses</h2>
-              <!-- ko foreach: responses -->
-              <div class="list-group">
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading">Subject: </h4>
-                  <div data-bind="text: Subject" class="list-group-item-text"></div>
-                </div>
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading">Created By: </h4>
-                  <div data-bind="text: From" class="list-group-item-text"></div>
-                </div>
-                <div class="list-group-item">
-                  <h4 class="list-group-item-heading">Date Created: </h4>
-                  <div data-bind="text: __created" class="list-group-item-text"></div>
-                </div>
-                <div class="list-group-item">
-                  <div data-bind="html: Body__parsed" class="list-group-item-text"></div>
-                </div>
-              </div>
-              <!-- /ko -->
-            </div>
-            <div class="panel" data-bind="visible: Subject() != null">
-              <form data-bind="submit: saveNewResponse">
-                <h2>New Response</h2>
+
+            <div data-bind="visible: newdocument()">
+              <form data-bind="submit: saveNewDocument">
                 <div class="form-group">
-                  <label for="responsesubject">Subject</label>
-                  <input class="form-control" id="responsesubject" placeholder="Subject" data-bind="textInput: ResponseSubject">
+                  <label for="subject">Subject</label>
+                  <input class="form-control" id="subject" placeholder="Subject" data-bind="textInput: Subject">
                 </div>
                 <div class="form-group">
-                  <label for="responsebody">Body</label>
-                  <textarea class="form-control" id="responsebody" placeholder="Enter text..." data-bind="textInput: ResponseBody__parsed"></textarea>
+                  <label for="categories">Categories</label>
+                  <select class="form-control" data-bind="options: categorieslist, selectedOptions: Categories" size="5" multiple="true"></select>
                 </div>
-                <div class="form-group hidden">
-                  <input type="file" id="responsefileupload" name="responsefileupload">
+                <div class="form-group">
+                  <label for="body">Body</label>
+                  <textarea class="form-control" id="body" placeholder="Enter text..." data-bind="textInput: Body__parsed"></textarea>
+                </div>
+                <div class="form-group">
+                  <input type="file" id="fileupload" name="fileupload">
                 </div>
                 <div class="btn-group">
+                  <button class="btn btn-default" data-bind="click: cancelNewDocument">Cancel</button>
                   <button type="submit" class="btn btn-primary">Submit</button>
                 </div>
               </form>
             </div>
-          </div>
+
+          </main>
         </div>
-      </div>
-      <div data-bind="visible: newdocument()">
-        <form data-bind="submit: saveNewDocument">
-          <div class="form-group">
-            <label for="subject">Subject</label>
-            <input class="form-control" id="subject" placeholder="Subject" data-bind="textInput: Subject">
-          </div>
-          <div class="form-group">
-            <label for="categories">Categories</label>
-            <select class="form-control" data-bind="options: categorieslist, selectedOptions: Categories" size="5" multiple="true"></select>
-          </div>
-          <div class="form-group">
-            <label for="body">Body</label>
-            <textarea class="form-control" id="body" placeholder="Enter text..." data-bind="textInput: Body__parsed"></textarea>
-          </div>
-          <div class="form-group">
-            <input type="file" id="fileupload" name="fileupload">
-          </div>
-          <div class="btn-group">
-            <button class="btn btn-default" data-bind="click: cancelNewDocument">Cancel</button>
-            <button type="submit" class="btn btn-primary">Submit</button>
-          </div>
-        </form>
       </div>
     </div>
   </div>
+  <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="./theme/bootstrap/js/bootstrap.min.js"></script>
+  <script type='text/javascript' src='./bower_components/knockout/dist/knockout.js'></script>
+  <script type='text/javascript' src='./bower_components/knockout.mapping/knockout.mapping.js'></script>
+  <script type='text/javascript' src='./app.js'></script>
+  <script type='text/javascript' src='./js.cookie.js'></script>
+  <script type='text/javascript' src='./bower_components/moment/moment.js'></script>
+
 </body>
 
-<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.5/js/bootstrap.min.js"></script>
-<script type='text/javascript' src='bower_components/knockout/dist/knockout.js'></script>
-<script type='text/javascript' src='bower_components/knockout.mapping/knockout.mapping.js'></script>
-<script type='text/javascript' src='app.js'></script>
-<script type='text/javascript' src='js.cookie.js'></script>
-<script type='text/javascript' src='bower_components/moment/moment.js'></script>
 
 </html>

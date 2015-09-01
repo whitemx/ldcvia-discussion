@@ -1,0 +1,17 @@
+/*  phpBB3 Stylesheet
+    --------------------------------------------------------------
+	Style name:			BBOOTS
+	Developer:	        ThemeSplat ( http://www.sitesplat.com/phpBB3 )
+	Version:		    3.0.2
+    --------------------------------------------------------------
+*/
+
+@import url("./bootstrap/css/bootstrap.min.css");
+@import url("./bootstrap/css/bootstrap-select.min.css");
+@import url("./footable/css/footable.core.min.css");
+@import url("./font-awesome/css/font-awesome.min.css");
+@import url("./iconmoon/style.min.css");
+@import url("content.min.css");
+@import url("basics.css");
+@import url("custom.css");
+
