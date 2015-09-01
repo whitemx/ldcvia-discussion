@@ -1,0 +1,155 @@
+/* CSS Document */
+
+/* --------------------------------------------------------------
+Global Color Change
+-------------------------------------------------------------- */
+@import url(//fonts.googleapis.com/css?family=Raleway:300,400,700,400italic);
+/* Override bootstrap.min */
+html, body { font-family: 'Raleway', sans-serif }
+.table-primary thead th {
+    background-color: #DE010B;
+	border-color: #DE010B!important;
+}
+
+footer .navList a {
+  color: #DE010B !important;
+}
+
+.subheader {
+    border-top: 4px solid #DE010B !important;
+}
+
+
+.submenu {
+    border-bottom: 4px solid #DE010B;
+}
+
+.submenu li:hover > a {
+  color: #DE010B;
+}
+.submenu li:hover > span {
+  background-color: #DE010B;
+}
+
+.logo-transition a:after {
+    color: #DE010B;
+}
+
+.label-info, .badge-info {
+    background-color: #DE010B !important;
+}
+
+#navBtn {
+    background-color: #DE010B;
+}
+
+#navBtn:hover {
+    background-color: #E52737;
+}
+
+.pagination.pagination-small a {
+    color: #DE010B;
+}
+
+.pagination.pagination-small a:hover {
+    color: #E52737;
+}
+
+.tabbable-custom .nav-tabs > li.active {
+    border-top: 3px solid #DE010B;
+}
+
+.ver-inline-menu li.active a, .ver-inline-menu li.active i {
+    background: none repeat scroll 0 0 #DE010B;
+    border-left: 1px solid #DE010B;
+}
+
+.ver-inline-menu li.active:after {
+    border-left: 6px solid #DE010B;
+}
+
+.ver-inline-menu li.active i {
+    background: none repeat scroll 0 0 #E52737 !important;
+}
+
+.alert.alert-info {
+    background-color: #DE010B;
+}
+
+
+
+.nav-icon:hover [class*="has-sub"] {
+color: #DE010B;
+}
+
+.mainnav-mob > ul > li:hover > a,
+.mainnav-mob > ul > li.current > a {
+    color: #E52737;
+  }
+
+#footerContent blockquote p span {
+    color: #DE010B;
+}
+
+.logo span {
+    color: #DE010B;
+}
+
+#top-line {
+    background: none repeat scroll 0 0 #DE010B;
+}
+
+.side-segment h3:after, .side-segment h2:after {
+    background-color: #DE010B;
+}
+
+
+.twitter-layout:before {
+    color: #DE010B;
+}
+
+footer .bottomLinks small a {
+    color: #DE010B;
+}
+
+#scrollUp {
+    background-color: #DE010B;
+    background-image: linear-gradient(#DE010B, #DE010B 85%, #E52737);
+}
+
+.dropdown-menu > li > a:hover,
+.dropdown-menu > li > a:focus,
+.dropdown-submenu:hover > a,
+.dropdown-submenu:focus > a {
+  color: #E52737 !important;
+}
+
+
+#page-body .bar{
+color: #8C8C8C;
+}
+
+
+.postbody h3 a {
+    color: #DE010B !important;
+}
+
+/* Links for forum/topic lists */
+a.forumtitle {
+	color: #DE010B;
+}
+
+
+a.topictitle {
+	color: #DE010B;
+}
+
+footer {
+    border-top: 3px solid #DE010B;
+}
+
+
+
+/* --------------------------------------------------------------
+Global Color Change
+-------------------------------------------------------------- */

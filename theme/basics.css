@@ -41,13 +41,13 @@ html {
 body {
   background-color:transparent;
   margin: 0;
-  font-family: 'Source Sans Pro','Arial','Helvetica',sans-serif;
+  /*font-family: 'Source Sans Pro','Arial','Helvetica',sans-serif;*/
   font-size: 13px;
 }
 
 h1, h2, h3, h4, h5, h6, h1 a, h2 a, h3 a, h4 a, h5 a, h6 a {
     color: #7F7F7F;
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     line-height: normal;
 	font-weight: 200;
     margin: 5px 0 10px;
@@ -585,7 +585,7 @@ legend {
     border: medium none;
     color: #9A9A9A;
     margin: 0;
-	font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+	  /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 24px;
     padding: 0 10px;
     width: auto;
@@ -792,7 +792,7 @@ UCP TABS NAVIGATION
     background-color: #169FE6;
     border-color: #169FE6 !important;
     color: #FFFFFF;
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-size: 14px;
 	font-style: normal;
     font-weight: 700;
@@ -1238,7 +1238,7 @@ Font icon forums
 }
 
 li.index-title h1, .titleLineCharts h2 {
-  font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+  /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
   font-size: 30px;
   line-height: 25px;
   color: #8C8C8C;
@@ -1416,9 +1416,9 @@ header .leftArea {
 
 header .leftArea .logo {
     color: #8C8C8C;
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
-    font-size: 70px;
-    font-style: normal;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
+    font-size: 50px;
+    font-style: bold;
     font-weight: 400;
     line-height: 50px;
     text-decoration: none;
@@ -1454,7 +1454,7 @@ font-size: 14px;
   content: '{';
   color:#8C8C8C;
   line-height: 16px;
-  font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+  /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 70px;
     font-style: normal;
     font-weight: 400;
@@ -1468,7 +1468,7 @@ font-size: 14px;
   content: '}';
   color:#169FE6;
   line-height: 16px;
-  font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+  /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 70px;
     font-style: normal;
     font-weight: 400;
@@ -1540,7 +1540,7 @@ display: table-cell;
 .mainnav > ul > li > a {
     color: #8C8C8C;
     display: block;
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
 	-webkit-font-smoothing: antialiased; /* Fix for webkit rendering, well at least for the time being */
     font-size: 28px;
     font-style: normal;
@@ -1560,7 +1560,7 @@ display: table-cell;
   -webkit-font-smoothing: antialiased; /* Fix for webkit rendering, well at least for the time being */
   font-style: normal;
   font-weight: 400;
-  font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+  /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
   font-size: 11px;
 }
 
@@ -1694,7 +1694,7 @@ display: table-cell;
 
 .submenu a {
   display: block;
-  font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+  /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
   font-style: normal;
   font-weight: 400;
   -webkit-font-smoothing: antialiased; /* Fix for webkit rendering, well at least for the time being */
@@ -1741,7 +1741,7 @@ MAIN NAVIGATION
     z-index: 2;
     overflow: hidden;
     color: #555555;
-	font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+	  /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-size: 15px;
 	text-transform: uppercase;
 	background: none repeat scroll 0 0 rgba(220, 223, 225, 0.75);
@@ -1959,7 +1959,7 @@ header .leftArea {
 }
 
 .navBtn {
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 28px;
     line-height: 45px;
     position: relative;
@@ -2040,7 +2040,7 @@ td .row-icon, .topic-icon {
 
 .mainnav-mob > ul > li > a {
     display: block;
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-style: normal;
     font-weight: 400;
     font-size: 16px;
@@ -2203,7 +2203,7 @@ footer {
 
 #footerContent blockquote p {
 	color: #8C8C8C;
-	font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+	/*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
 	font-size: 20px;
 }
 
@@ -2382,7 +2382,7 @@ footer .navList li a {
 }
 
 footer .bottomLinks {
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-size: inherit;
     font-style: normal;
     font-weight: 400;
@@ -2663,7 +2663,7 @@ input[type="checkbox"]:checked+label,input[type="radio"]:checked+label{
     background-color: rgba(0, 0, 0, 0);
     bottom: 0;
     color: #667E99;
-	font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+	  /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-weight: 700;
     left: 0;
     padding: 3px 5px 5px 0;
@@ -2693,7 +2693,7 @@ input[type="checkbox"]:checked+label,input[type="radio"]:checked+label{
 }
 
 .timepost {
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     margin-top: -6px;
 	color: #8C8C8C;
 }
@@ -2815,7 +2815,7 @@ input[type="checkbox"]:checked+label,input[type="radio"]:checked+label{
 -------------------------------------------------------------- */
 
 .btn {
-   font-family: 'roboto condensed','Arial','Helvetica',sans-serif;
+   /*font-family: 'roboto condensed','Arial','Helvetica',sans-serif;*/
    font-weight: 700;
    color:#7F7F7F;
 }
@@ -3320,7 +3320,7 @@ BACK TO TOP
 .big-title h1:before {
     color: #8C8C8C;
     content: "{";
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 250px;
     font-style: normal;
     font-weight: 400;
@@ -3330,7 +3330,7 @@ BACK TO TOP
 .big-title h1:after {
     color: #169FE6;
     content: "}";
-    font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;
+    /*font-family: 'BebasNeueRegular','Arial','Helvetica',sans-serif;*/
     font-size: 250px;
     font-style: normal;
     font-weight: 400;
@@ -3386,7 +3386,7 @@ BACK TO TOP
 -----------------------------*/
 #container {
     color: #555555;
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-size: 50px;
     margin: 0 auto;
     min-height: 90px;
@@ -3412,7 +3412,7 @@ BACK TO TOP
 
 	color: #777777;
     display: block;
-    font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;
+    /*font-family: 'Roboto Condensed','Arial','Helvetica',sans-serif;*/
     font-size: 26px;
     margin: 0 auto 0px;
     padding: 10px;
