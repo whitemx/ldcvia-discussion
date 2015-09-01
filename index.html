@@ -105,14 +105,19 @@
             <div class="fxicon">
               <i class="fa fa-puzzle-piece"></i>
             </div>
-            <ul class="index-pos pull-left">
+            <ul class="index-pos pull-left" style="position: relative;">
               <li class="index-title">
                 <h1 data-bind="click: home, visible: apikey() == null">Please Login</h1>
                 <h1 data-bind="text: dbtitle, click: home, visible: apikey() != null && Subject() == null && !newdocument()"></h1>
                 <h1 data-bind="click: home, visible: newdocument()">New Topic</h1>
-                <h1 data-bind="text: Subject, click: home, visible: Subject() != null && !newdocument()"></h1>
+                <span data-bind="visible: Subject() != null && !newdocument()">
+                  <ol class="breadcrumb pull-right" data-bind="click: home">
+                    <li><a href="#">Home</a></li>
+                    <li class="active" data-bind="text: Subject"></li>
+                  </ol>
+                  <h1 data-bind="text: Subject"></h1>
+                </span>
               </li>
-              <li class="index-sub"></li>
             </ul>
           </div>
         </section>
@@ -237,7 +242,18 @@
                   </div>
                 </div>
                 <div data-bind="visible: responses().length > 0">
-                  <h2>Responses</h2>
+                  <section class="subheader">
+                    <div class="clearfix">
+                      <div class="fxicon">
+                        <i class="fa fa-comments"></i>
+                      </div>
+                      <ul class="index-pos pull-left" style="position: relative;">
+                        <li class="index-title">
+                          <h1>Responses</h1>
+                        </li>
+                      </ul>
+                    </div>
+                  </section>
                   <!-- ko foreach: responses -->
                   <div class="list-group">
                     <div class="list-group-item">
@@ -260,7 +276,18 @@
                 </div>
                 <div class="panel" data-bind="visible: Subject() != null">
                   <form data-bind="submit: saveNewResponse">
-                    <h2>New Response</h2>
+                    <section class="subheader">
+                      <div class="clearfix">
+                        <div class="fxicon">
+                          <i class="fa fa-comments-o"></i>
+                        </div>
+                        <ul class="index-pos pull-left" style="position: relative;">
+                          <li class="index-title">
+                            <h1>New Response</h1>
+                          </li>
+                        </ul>
+                      </div>
+                    </section>
                     <div class="form-group">
                       <label for="responsesubject">Subject</label>
                       <input class="form-control" id="responsesubject" placeholder="Subject" data-bind="textInput: ResponseSubject">
