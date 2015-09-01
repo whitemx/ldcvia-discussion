@@ -111,8 +111,8 @@
                 <h1 data-bind="text: dbtitle, click: home, visible: apikey() != null && Subject() == null && !newdocument()"></h1>
                 <h1 data-bind="click: home, visible: newdocument()">New Topic</h1>
                 <span data-bind="visible: Subject() != null && !newdocument()">
-                  <ol class="breadcrumb pull-right" data-bind="click: home">
-                    <li><a href="#">Home</a></li>
+                  <ol class="breadcrumb pull-right">
+                    <li><a href="#" data-bind="click: home">Home</a></li>
                     <li class="active" data-bind="text: Subject"></li>
                   </ol>
                   <h1 data-bind="text: Subject"></h1>
@@ -213,10 +213,6 @@
               </div>
               <div data-bind="visible: Subject() != null && !newdocument()">
                 <div class="list-group">
-                  <div class="list-group-item">
-                    <h4 class="list-group-item-heading">Subject: </h4>
-                    <div data-bind="text: Subject" class="list-group-item-text"></div>
-                  </div>
                   <div class="list-group-item">
                     <h4 class="list-group-item-heading">Created By: </h4>
                     <div data-bind="text: From" class="list-group-item-text"></div>

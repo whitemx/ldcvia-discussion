@@ -8,6 +8,11 @@ $(document).ready(function(){
   }else{
     initAuthenticated();
   }
+
+  $(window).on('popstate', function() {
+    model.home();
+  });
+
 });
 
 function initAnonymous(){
@@ -36,7 +41,18 @@ function initAuthenticated(){
   .done(function(data){
     model.categorieslist(data);
   })
-  getViewData();
+  if (gup("unid") == ""){
+    getViewData();
+  }else{
+    $.ajax({
+      method: 'GET',
+      url: model.hostname + "/document/" + model.dbname + "/MainTopic/" + gup("unid"),
+      headers: {"apikey": model.apikey()}
+    })
+    .done(function(data){
+      model.openDocument(data);
+    })
+  }
 }
 
 function AppViewModel() {
@@ -59,6 +75,7 @@ function AppViewModel() {
     model.Subject(null);
     model.__unid(null);
     model.newdocument(false);
+    window.history.pushState(null, null, window.location.origin + window.location.pathname + "?db=" + model.dbname);
     getViewData();
   }
 
@@ -108,6 +125,7 @@ function AppViewModel() {
   this.responses = ko.observableArray(null);
   this._files = ko.observableArray(null);
   this.categorieslist = ko.observableArray(null);
+  this.permalink = ko.observable(null);
 
   //Response Fields
   this.ResponseSubject = ko.observable(null);
@@ -121,7 +139,8 @@ function AppViewModel() {
     model.Body(data.Body);
     model.Body__parsed(data.Body__parsed);
     model.__unid(data.__unid);
-    model._files(data._files);
+    model.permalink(data.permalink);
+    window.history.pushState(null, null, data.permalink);
     $.ajax({
       method: 'GET',
       url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + this.__unid + "?expand=true",
@@ -136,6 +155,7 @@ function AppViewModel() {
         model.responses.push(responses[i]);
       }
     })
+    model._files(data._files);
   }
 
   this.updateDocument = function(data){
@@ -272,6 +292,11 @@ function AppViewModel() {
 
   }
 
+  this.copyPermalink = function(){
+    var copyEvent = new ClipboardEvent('copy', { dataType: 'text/plain', data: model.permalink() } );
+    document.dispatchEvent(copyEvent);
+  }
+
 }
 
 var sendNewDocument = function(data, callback) {
@@ -345,6 +370,8 @@ function getViewData(data){
     for (var i=0; i<data.data.length; i++){
       data.data[i].From = formatNotesName(data.data[i].From);
       data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+      data.data[i].permalink = newurl;
       if (!Array.isArray(data.data[i].Categories)){
         data.data[i].Categories = [data.data[i].Categories];
       }
@@ -377,6 +404,8 @@ function getSearchData(data){
     for (var i=0; i<data.data.length; i++){
       data.data[i].From = formatNotesName(data.data[i].From);
       data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+      data.data[i].permalink = newurl;
       if (!Array.isArray(data.data[i].Categories)){
         data.data[i].Categories = [data.data[i].Categories];
       }
