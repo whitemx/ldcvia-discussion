@@ -299,7 +299,7 @@
                     </div>
                     <div class="form-group">
                       <label for="responsebody">Body</label>
-                      <textarea class="form-control" id="responsebody" placeholder="Enter text..." data-bind="textInput: ResponseBody__parsed"></textarea>
+                      <textarea class="form-control" id="responsebody" placeholder="Enter text..." data-bind="richText: ResponseBody__parsed"></textarea>
                     </div>
                     <div class="form-group hidden">
                       <input type="file" id="responsefileupload" name="responsefileupload">
@@ -324,7 +324,7 @@
                 </div>
                 <div class="form-group">
                   <label for="body">Body</label>
-                  <textarea class="form-control" id="body" placeholder="Enter text..." data-bind="textInput: Body__parsed"></textarea>
+                  <textarea class="form-control" id="body" placeholder="Enter text..." data-bind="richText: Body__parsed"></textarea>
                 </div>
                 <div class="form-group">
                   <input type="file" id="fileupload" name="fileupload">
@@ -385,13 +385,13 @@
     </div>
   </div>
   <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+  <script src="//cdn.ckeditor.com/4.5.3/standard/ckeditor.js"></script>
   <script src="./theme/bootstrap/js/bootstrap.min.js"></script>
   <script type='text/javascript' src='./bower_components/knockout/dist/knockout.js'></script>
   <script type='text/javascript' src='./bower_components/knockout.mapping/knockout.mapping.js'></script>
-  <script type='text/javascript' src='./app.js'></script>
   <script type='text/javascript' src='./js.cookie.js'></script>
   <script type='text/javascript' src='./bower_components/moment/moment.js'></script>
-
+  <script type='text/javascript' src='./app.js'></script>
 </body>
 
 

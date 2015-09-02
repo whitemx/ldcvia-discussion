@@ -1,11 +1,17 @@
-$(document).ready(function(){
-  $('[data-toggle="tooltip"]').tooltip({delay: { "show": 0, "hide": 300 }});
-  $('[data-toggle="offcanvas"]').click(function () {
+$(document).ready(function() {
+  ko.applyBindings(model);
+  $('[data-toggle="tooltip"]').tooltip({
+    delay: {
+      "show": 0,
+      "hide": 300
+    }
+  });
+  $('[data-toggle="offcanvas"]').click(function() {
     $('.row-offcanvas').toggleClass('active')
   });
-  if (model.apikey() == null){
+  if (model.apikey() == null) {
     initAnonymous();
-  }else{
+  } else {
     initAuthenticated();
   }
 
@@ -13,52 +19,63 @@ $(document).ready(function(){
     model.home();
   });
 
+
 });
 
-function initAnonymous(){
-  if (Cookies.get('apikey')){
+function initAnonymous() {
+  if (Cookies.get('apikey')) {
     model.apikey(Cookies.get('apikey'));
     model.useremail(Cookies.get('useremail'));
     initAuthenticated();
   }
 }
 
-function initAuthenticated(){
+function initAuthenticated() {
   $.ajax({
-    method: 'GET',
-    url: model.hostname + "/database/" + model.dbname,
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data){
-    model.dbtitle(data.title);
-    model.indexed(data.indexed);
-  });
-  $.ajax({
-    method: 'GET',
-    url: model.hostname + "/list/" + model.dbname + "/MainTopic/Categories",
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data){
-    model.categorieslist(data);
-  })
-  if (gup("unid") == ""){
-    getViewData();
-  }else{
-    $.ajax({
       method: 'GET',
-      url: model.hostname + "/document/" + model.dbname + "/MainTopic/" + gup("unid"),
-      headers: {"apikey": model.apikey()}
+      url: model.hostname + "/database/" + model.dbname,
+      headers: {
+        "apikey": model.apikey()
+      }
     })
-    .done(function(data){
-      model.openDocument(data);
+    .done(function(data) {
+      model.dbtitle(data.title);
+      model.indexed(data.indexed);
+    });
+  $.ajax({
+      method: 'GET',
+      url: model.hostname + "/list/" + model.dbname + "/MainTopic/Categories",
+      headers: {
+        "apikey": model.apikey()
+      }
     })
+    .done(function(data) {
+      for (var i=0; i<data.length; i++){
+        if (data[i] != ""){
+          model.categorieslist.push(data[i]);
+        }
+      }
+    })
+  if (gup("unid") == "") {
+    getViewData();
+  } else {
+    $.ajax({
+        method: 'GET',
+        url: model.hostname + "/document/" + model.dbname + "/MainTopic/" + gup("unid"),
+        headers: {
+          "apikey": model.apikey()
+        }
+      })
+      .done(function(data) {
+        model.openDocument(data);
+      })
   }
 }
 
 function AppViewModel() {
   this.hostname = "https://eu.ldcvia.com/1.0";
   this.dbname = gup('db');
-  this.apikey = ko.observable(null);//'3244d4d78226ef748f0395c6eddc3bbc';
+  this.apikey = ko.observable(null); //'3244d4d78226ef748f0395c6eddc3bbc';
   this.useremail = ko.observable(null);
   this.viewentries = ko.observableArray(null);
   this.max = ko.observable(0);
@@ -71,7 +88,7 @@ function AppViewModel() {
   this.search = ko.observable(null);
   this.newdocument = ko.observable(false);
 
-  this.home = function(){
+  this.home = function() {
     model.Subject(null);
     model.__unid(null);
     model.newdocument(false);
@@ -85,28 +102,32 @@ function AppViewModel() {
   this.password = ko.observable(null);
   this.remember = ko.observable(true);
 
-  this.login = function(){
+  this.login = function() {
     $.ajax({
-      method: "POST",
-      url: this.hostname + "/login",
-      data: "username=" + model.username() + "&password=" + model.password()
-    })
-    .done(function(data){
-      if (data.apikey){
-        model.apikey(data.apikey);
-        model.useremail(data.email);
-        if (model.remember()){
-          Cookies.set('apikey', data.apikey, { expires: 28 });
-          Cookies.set('useremail', data.email, { expires: 28 });
+        method: "POST",
+        url: this.hostname + "/login",
+        data: "username=" + model.username() + "&password=" + model.password()
+      })
+      .done(function(data) {
+        if (data.apikey) {
+          model.apikey(data.apikey);
+          model.useremail(data.email);
+          if (model.remember()) {
+            Cookies.set('apikey', data.apikey, {
+              expires: 28
+            });
+            Cookies.set('useremail', data.email, {
+              expires: 28
+            });
+          }
+          initAuthenticated();
+        } else {
+          model.error(data.error);
         }
-        initAuthenticated();
-      }else{
-        model.error(data.error);
-      }
-    })
+      })
   }
 
-  this.logout = function(){
+  this.logout = function() {
     model.apikey(null);
     model.useremail(null);
     model.viewentries.removeAll();
@@ -133,7 +154,7 @@ function AppViewModel() {
   this.ResponseSubject = ko.observable(null);
   this.ResponseBody__parsed = ko.observable(null);
 
-  this.openDocument = function(data){
+  this.openDocument = function(data) {
     model.Subject(data.Subject);
     model.From(data.From);
     model.Categories(data.Categories);
@@ -144,84 +165,88 @@ function AppViewModel() {
     model.permalink(data.permalink);
     window.history.pushState(null, null, data.permalink);
     $.ajax({
-      method: 'GET',
-      url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + this.__unid + "?expand=true",
-      headers: {"apikey": model.apikey()}
-    })
-    .done(function(data){
-      model.responses.removeAll();
-      var responses = data.data;
-      for (var i=0; i<responses.length; i++){
-        responses[i].From = formatNotesName(responses[i].From);
-        responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
-        model.responses.push(responses[i]);
-      }
-    })
-    if (data._files){
+        method: 'GET',
+        url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + model.__unid() + "?expand=true",
+        headers: {
+          "apikey": model.apikey()
+        }
+      })
+      .done(function(data) {
+        model.responses.removeAll();
+        var responses = data.data;
+        for (var i = 0; i < responses.length; i++) {
+          responses[i].From = formatNotesName(responses[i].From);
+          responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
+          model.responses.push(responses[i]);
+        }
+      })
+    if (data._files) {
       model._files(data._files);
-    }else{
+    } else {
       model._files.removeAll();
     }
   }
 
-  this.updateDocument = function(data){
+  this.updateDocument = function(data) {
     model._files.removeAll();
     ko.mapping.fromJS(data, {}, this);
   };
 
-  this.getFirstViewPage = function(){
+  this.getFirstViewPage = function() {
     this.start(0);
-    if (model.search() == null || model.search() == ""){
+    if (model.search() == null || model.search() == "") {
       getViewData();
-    }else{
+    } else {
       getSearchData();
     }
   }
 
-  this.getLastViewPage = function(){
+  this.getLastViewPage = function() {
     this.start(this.max - (this.max % this.count));
-    if (model.search() == null || model.search() == ""){
+    if (model.search() == null || model.search() == "") {
       getViewData();
-    }else{
+    } else {
       getSearchData();
     }
   }
 
-  this.doSearch = function(){
-    if (model.search() == null || model.search() == ""){
+  this.doSearch = function() {
+    if (model.search() == null || model.search() == "") {
       getViewData();
-    }else{
+    } else {
       getSearchData(new PageNum(1, 0));
     }
   }
 
-  this.resetSearch = function(){
+  this.resetSearch = function() {
     model.search(null);
     model.categoryfilter(null);
     getViewData(new PageNum(1, 0));
   }
 
-  this.getCategory = function(data){
+  this.getCategory = function(data) {
     model.categoryfilter(data);
     filterCategoryData(new PageNum(1, 0));
   }
 
-  this.openFile = function(data){
+  this.openFile = function(data) {
     window.open(model.hostname + "/attachment/" + model.dbname + "/MainTopic/" + model.__unid() + "/" + data + "?apikey=" + model.apikey());
   }
 
-  this.newDocument = function(){
+  this.newDocument = function() {
     model.Subject(null);
-    model.Categories(null);
-    model.Body__parsed(null);
+    model.Categories("");
+    model.Body__parsed("");
     model.newdocument(true);
   }
 
-  this.cancelNewDocument = function(){
+  this.cancelNewDocument = function() {
     model.newdocument(false);
   }
 
-  this.saveNewDocument = function(){
+  this.saveNewDocument = function() {
+    var editor = CKEDITOR.instances['body'];
+    editor.focusManager.blur(true);
     var data = {};
     var unid = new Date().getTime();
     data.__unid = unid;
@@ -252,19 +277,21 @@ function AppViewModel() {
           "contentTransferEncoding": "base64",
           "data": reader.result.match(/,(.*)$/)[1]
         });
-        sendNewDocument(data, function (){
+        sendNewDocument(data, function() {
           model.home();
         });
       }
       reader.readAsDataURL(file);
     } else {
-      sendNewDocument(data, function(){
+      sendNewDocument(data, function() {
         model.home();
       });
     }
   }
 
-  this.saveNewResponse = function(){
+  this.saveNewResponse = function() {
+    var editor = CKEDITOR.instances['responsebody'];
+    editor.focusManager.blur(true);
     var data = {};
     var unid = new Date().getTime();
     data.__unid = unid;
@@ -304,8 +331,11 @@ function AppViewModel() {
 
   }
 
-  this.copyPermalink = function(){
-    var copyEvent = new ClipboardEvent('copy', { dataType: 'text/plain', data: model.permalink() } );
+  this.copyPermalink = function() {
+    var copyEvent = new ClipboardEvent('copy', {
+      dataType: 'text/plain',
+      data: model.permalink()
+    });
     document.dispatchEvent(copyEvent);
   }
 
@@ -327,144 +357,149 @@ var sendNewDocument = function(data, callback) {
 
 }
 
-function loadResponses(){
+function loadResponses() {
   model.ResponseSubject(null);
-  model.ResponseBody__parsed(null);
+  model.ResponseBody__parsed("");
   $.ajax({
-    method: 'GET',
-    url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + model.__unid() + "?expand=true",
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data){
-    model.responses.removeAll();
-    var responses = data.data;
-    for (var i=0; i<responses.length; i++){
-      responses[i].From = formatNotesName(responses[i].From);
-      responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
-      model.responses.push(responses[i]);
-    }
-  })
+      method: 'GET',
+      url: model.hostname + "/responses/" + model.dbname + "/MainTopic/" + model.__unid() + "?expand=true",
+      headers: {
+        "apikey": model.apikey()
+      }
+    })
+    .done(function(data) {
+      model.responses.removeAll();
+      var responses = data.data;
+      for (var i = 0; i < responses.length; i++) {
+        responses[i].From = formatNotesName(responses[i].From);
+        responses[i].__created = moment(responses[i].__created).format('MMMM Do YYYY, h:mm:ss a');
+        model.responses.push(responses[i]);
+      }
+    })
 }
 
-var model = new AppViewModel();
-ko.applyBindings(model);
-
-function PageNum(pagenum, start){
+function PageNum(pagenum, start) {
   this.pagenum = pagenum;
   this.start = start;
-  this.getViewPage = function(data){
-    if (model.search() == null || model.search() == ""){
+  this.getViewPage = function(data) {
+    if (model.search() == null || model.search() == "") {
       getViewData(this);
-    }else{
+    } else {
       getSearchData(this);
     }
   }
 }
 
-function getViewData(data){
-  if (data){
+function getViewData(data) {
+  if (data) {
     model.start(data.start);
   }
   $.ajax({
-    method: "GET",
-    url: model.hostname + "/collections/" + model.dbname + "/MainTopic?count=" + model.count +  "&start=" + model.start(),
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data) {
-    model.max = data.count;
-    model.viewentries.removeAll();
-    model.pages.removeAll();
-    var pagenum = 1;
-    for (var i=0; i<model.max; i = i + model.count){
-      model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
-      pagenum++;
-    }
-    for (var i=0; i<data.data.length; i++){
-      data.data[i].From = formatNotesName(data.data[i].From);
-      data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
-      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
-      data.data[i].permalink = newurl;
-      if (!Array.isArray(data.data[i].Categories)){
-        data.data[i].Categories = [data.data[i].Categories];
+      method: "GET",
+      url: model.hostname + "/collections/" + model.dbname + "/MainTopic?count=" + model.count + "&start=" + model.start(),
+      headers: {
+        "apikey": model.apikey()
       }
-      model.viewentries.push(data.data[i]);
-    }
-  });
+    })
+    .done(function(data) {
+      model.max = data.count;
+      model.viewentries.removeAll();
+      model.pages.removeAll();
+      var pagenum = 1;
+      for (var i = 0; i < model.max; i = i + model.count) {
+        model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
+        pagenum++;
+      }
+      for (var i = 0; i < data.data.length; i++) {
+        data.data[i].From = formatNotesName(data.data[i].From);
+        data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+        var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+        data.data[i].permalink = newurl;
+        if (!Array.isArray(data.data[i].Categories)) {
+          data.data[i].Categories = [data.data[i].Categories];
+        }
+        model.viewentries.push(data.data[i]);
+      }
+    });
 }
 
-function getSearchData(data){
-  if (data){
+function getSearchData(data) {
+  if (data) {
     model.start(data.start);
   }
   $.ajax({
-    method: "POST",
-    url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count +  "&start=" + model.start(),
-    data: {
-      "fulltext": model.search()
-    },
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data) {
-    model.max = data.count;
-    model.viewentries.removeAll();
-    model.pages.removeAll();
-    var pagenum = 1;
-    for (var i=0; i<model.max; i = i + model.count){
-      model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
-      pagenum++;
-    }
-    for (var i=0; i<data.data.length; i++){
-      data.data[i].From = formatNotesName(data.data[i].From);
-      data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
-      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
-      data.data[i].permalink = newurl;
-      if (!Array.isArray(data.data[i].Categories)){
-        data.data[i].Categories = [data.data[i].Categories];
+      method: "POST",
+      url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count + "&start=" + model.start(),
+      data: {
+        "fulltext": model.search()
+      },
+      headers: {
+        "apikey": model.apikey()
       }
-      model.viewentries.push(data.data[i]);
-    }
-  });
+    })
+    .done(function(data) {
+      model.max = data.count;
+      model.viewentries.removeAll();
+      model.pages.removeAll();
+      var pagenum = 1;
+      for (var i = 0; i < model.max; i = i + model.count) {
+        model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
+        pagenum++;
+      }
+      for (var i = 0; i < data.data.length; i++) {
+        data.data[i].From = formatNotesName(data.data[i].From);
+        data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+        var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+        data.data[i].permalink = newurl;
+        if (!Array.isArray(data.data[i].Categories)) {
+          data.data[i].Categories = [data.data[i].Categories];
+        }
+        model.viewentries.push(data.data[i]);
+      }
+    });
 }
 
-function filterCategoryData(data){
-  if (data){
+function filterCategoryData(data) {
+  if (data) {
     model.start(data.start);
   }
   $.ajax({
-    method: "POST",
-    url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count +  "&start=" + model.start(),
-    data: {
-      "filters": [{
-        "operator": "equals",
-        "field": "Categories",
-        "value": model.categoryfilter()
-      }]
-    },
-    headers: {"apikey": model.apikey()}
-  })
-  .done(function(data) {
-    model.max = data.count;
-    model.viewentries.removeAll();
-    model.pages.removeAll();
-    var pagenum = 1;
-    for (var i=0; i<model.max; i = i + model.count){
-      model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
-      pagenum++;
-    }
-    for (var i=0; i<data.data.length; i++){
-      data.data[i].From = formatNotesName(data.data[i].From);
-      data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
-      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
-      data.data[i].permalink = newurl;
-      if (!Array.isArray(data.data[i].Categories)){
-        data.data[i].Categories = [data.data[i].Categories];
+      method: "POST",
+      url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count + "&start=" + model.start(),
+      data: {
+        "filters": [{
+          "operator": "equals",
+          "field": "Categories",
+          "value": model.categoryfilter()
+        }]
+      },
+      headers: {
+        "apikey": model.apikey()
       }
-      model.viewentries.push(data.data[i]);
-    }
-  });
+    })
+    .done(function(data) {
+      model.max = data.count;
+      model.viewentries.removeAll();
+      model.pages.removeAll();
+      var pagenum = 1;
+      for (var i = 0; i < model.max; i = i + model.count) {
+        model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
+        pagenum++;
+      }
+      for (var i = 0; i < data.data.length; i++) {
+        data.data[i].From = formatNotesName(data.data[i].From);
+        data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+        var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+        data.data[i].permalink = newurl;
+        if (!Array.isArray(data.data[i].Categories)) {
+          data.data[i].Categories = [data.data[i].Categories];
+        }
+        model.viewentries.push(data.data[i]);
+      }
+    });
 }
 
-function formatNotesName(input){
+function formatNotesName(input) {
   input = input.replace("CN=", "");
   input = input.replace("OU=", "");
   input = input.replace("O=", "");
@@ -482,3 +517,35 @@ function gup(name) {
   else
     return results[1];
 }
+
+ko.bindingHandlers.richText = {
+  options: {},
+  init: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+    var txtBoxID = $(element).attr("id");
+    this.options = allBindingsAccessor().richTextOptions || {};
+    this.options.toolbar_Full = [
+      ['Source', '-', 'Format', 'Font', 'FontSize', 'TextColor', 'BGColor', '-', 'Bold', 'Italic', 'Underline', 'SpellChecker'],
+      ['NumberedList', 'BulletedList', '-', 'Outdent', 'Indent', '-', 'Blockquote', 'CreateDiv', '-', 'JustifyLeft', 'JustifyCenter', 'JustifyRight', 'JustifyBlock'],
+      ['Link', 'Unlink', 'Image', 'Table']
+    ]
+    //handle disposal (if KO removes by the template binding)
+    ko.utils.domNodeDisposal.addDisposeCallback(element, function() {
+      if (CKEDITOR.instances[txtBoxID]) {
+        CKEDITOR.remove(CKEDITOR.instances[txtBoxID]);
+      };
+    });
+    var editor = CKEDITOR.replace(txtBoxID, this.options);
+    //wire up the blur event to ensure our observable is properly updated
+    editor.on('blur', function() {
+      var observable = valueAccessor();
+      observable(editor.getData());
+    });
+  },
+  update: function(element, valueAccessor, allBindingsAccessor, viewModel) {
+    var txtBoxID = $(element).attr("id");
+    var observable = valueAccessor();
+    CKEDITOR.instances[txtBoxID].setData(observable());
+  }
+}
+
+var model = new AppViewModel();
