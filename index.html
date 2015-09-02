@@ -110,7 +110,14 @@
             <ul class="index-pos pull-left" style="position: relative;">
               <li class="index-title">
                 <h1 data-bind="click: home, visible: apikey() == null">Please Login</h1>
-                <h1 data-bind="text: dbtitle, click: home, visible: apikey() != null && Subject() == null && !newdocument()"></h1>
+                <h1 data-bind="text: dbtitle, click: home, visible: apikey() != null && Subject() == null && !newdocument() && categoryfilter() == null"></h1>
+                <span data-bind="visible: apikey() != null && Subject() == null && !newdocument() && categoryfilter() != null">
+                  <ol class="breadcrumb pull-right">
+                    <li><a href="#" data-bind="click: resetSearch">All Topics</a></li>
+                    <li class="active" data-bind="text: categoryfilter"></li>
+                  </ol>
+                  <h1 data-bind="text: dbtitle"></h1>
+                </span>
                 <h1 data-bind="click: home, visible: newdocument()">New Topic</h1>
                 <span data-bind="visible: Subject() != null && !newdocument()">
                   <ol class="breadcrumb pull-right">
@@ -180,7 +187,7 @@
                         <a href="#" data-bind="text: $data.Subject, click: $parent.openDocument" class="topictitle"></a>
                         <br />
                         <!-- ko foreach: $data.Categories -->
-                        <small class="badge" data-bind="text: $data"></small>
+                        <a href="#" data-bind="click: $parents[1].getCategory"><small class="label label-info" data-bind="text: $data"></small></a>
                         <!-- /ko -->
                       </td>
                       <td class="center footable-last-column hidden-xs">

@@ -75,6 +75,7 @@ function AppViewModel() {
     model.Subject(null);
     model.__unid(null);
     model.newdocument(false);
+    model.categoryfilter(null);
     window.history.pushState(null, null, window.location.origin + window.location.pathname + "?db=" + model.dbname);
     getViewData();
   }
@@ -126,6 +127,7 @@ function AppViewModel() {
   this._files = ko.observableArray(null);
   this.categorieslist = ko.observableArray(null);
   this.permalink = ko.observable(null);
+  this.categoryfilter = ko.observable(null);
 
   //Response Fields
   this.ResponseSubject = ko.observable(null);
@@ -155,7 +157,11 @@ function AppViewModel() {
         model.responses.push(responses[i]);
       }
     })
-    model._files(data._files);
+    if (data._files){
+      model._files(data._files);
+    }else{
+      model._files.removeAll();
+    }
   }
 
   this.updateDocument = function(data){
@@ -191,7 +197,13 @@ function AppViewModel() {
 
   this.resetSearch = function(){
     model.search(null);
+    model.categoryfilter(null);
     getViewData(new PageNum(1, 0));
+  }
+
+  this.getCategory = function(data){
+    model.categoryfilter(data);
+    filterCategoryData(new PageNum(1, 0));
   }
 
   this.openFile = function(data){
@@ -389,6 +401,44 @@ function getSearchData(data){
     url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count +  "&start=" + model.start(),
     data: {
       "fulltext": model.search()
+    },
+    headers: {"apikey": model.apikey()}
+  })
+  .done(function(data) {
+    model.max = data.count;
+    model.viewentries.removeAll();
+    model.pages.removeAll();
+    var pagenum = 1;
+    for (var i=0; i<model.max; i = i + model.count){
+      model.pages.push(new PageNum(pagenum, (pagenum - 1) * model.count));
+      pagenum++;
+    }
+    for (var i=0; i<data.data.length; i++){
+      data.data[i].From = formatNotesName(data.data[i].From);
+      data.data[i].__created = moment(data.data[i].__created).format('DD-MMM-YY');
+      var newurl = window.location.origin + window.location.pathname + "?db=" + model.dbname + "&unid=" + data.data[i].__unid;
+      data.data[i].permalink = newurl;
+      if (!Array.isArray(data.data[i].Categories)){
+        data.data[i].Categories = [data.data[i].Categories];
+      }
+      model.viewentries.push(data.data[i]);
+    }
+  });
+}
+
+function filterCategoryData(data){
+  if (data){
+    model.start(data.start);
+  }
+  $.ajax({
+    method: "POST",
+    url: model.hostname + "/search/" + model.dbname + "/MainTopic?count=" + model.count +  "&start=" + model.start(),
+    data: {
+      "filters": [{
+        "operator": "equals",
+        "field": "Categories",
+        "value": model.categoryfilter()
+      }]
     },
     headers: {"apikey": model.apikey()}
   })
